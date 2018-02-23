@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="Button">#d869e4</color>
+    <color name="Backgroud">#ccc4e6</color>
+    <color name="MauTim">#ed56ef</color>
+    <color name="Mauden">#000</color>
+    <color name="Mauchu">#1727b7</color>
+    <color name="Mautrang">#d0d2e2</color>
+    <color name="Maunentrong">#5681b9</color>
+    <color name="mautien">#c69f5a</color>
+    <color name="customview">#a1acae</color>
+
+
+</resources>
