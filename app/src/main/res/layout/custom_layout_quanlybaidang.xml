@@ -31,7 +31,7 @@
                 android:textColor="@color/Mauchu"/>
 
             <TextView
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:id="@+id/tv_fund"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/tv_somuc"
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -50,7 +50,7 @@
                 />
             <TextView
                 android:id="@+id/tv_tongchitieu"
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 />
             <TextView
                 android:id="@+id/tv_trangthai"
-                android:layout_marginEnd="15sp"
+                android:layout_marginRight="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"

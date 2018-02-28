@@ -1,5 +1,10 @@
 package com.example.cao.quanlychitieu.model;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by HP on 2/1/2018.
  */
@@ -16,7 +21,7 @@ public class User {
     public User() {
     }
 
-    public User( String ID, String user_Avatar, String user_Name, String user_date, String user_gioitinh, String user_Gmail, String user_NumberPhone) {
+    public User(String ID, String user_Avatar, String user_Name, String user_date, String user_gioitinh, String user_Gmail, String user_NumberPhone) {
         this.ID = ID;
         User_Avatar = user_Avatar;
         User_Name = user_Name;
@@ -80,5 +85,16 @@ public class User {
 
     public void setUser_NumberPhone(String user_NumberPhone) {
         User_NumberPhone = user_NumberPhone;
+    }
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("User_Avatar", User_Avatar);
+        result.put("User_Name", User_Name);
+        result.put("User_date", User_date);
+        result.put("User_gioitinh", User_gioitinh);
+        result.put("User_NumberPhone", User_NumberPhone);
+
+        return result;
     }
 }

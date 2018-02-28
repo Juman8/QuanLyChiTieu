@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/group"
             android:scaleType="fitEnd"
             android:background="@color/customview"
@@ -20,11 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/test"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textColor="@color/colorPrimary"
                 android:text="Title"
                 android:textStyle="bold"/>
@@ -48,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <LinearLayout
+        android:orientation="vertical"
         android:background="@color/Backgroud"
         android:layout_margin="@dimen/test"
         android:layout_width="match_parent"
@@ -55,7 +56,19 @@
     <ListView
         android:id="@+id/lv_chitietbaidang"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="350dp"
+        android:minHeight="60dp">
+    </ListView>
+        <TextView
+            android:layout_gravity="center"
+            android:text="Thong Tin Nguoi Dung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Mauchu"/>
+    <ListView
+        android:id="@+id/lv_nguoidung"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     </ListView>
     </LinearLayout>
     </LinearLayout>

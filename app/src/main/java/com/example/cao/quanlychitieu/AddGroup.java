@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.example.cao.quanlychitieu.MainActivity.LINK;
 import static com.example.cao.quanlychitieu.MainActivity.USERNAME;
@@ -75,10 +79,17 @@ public class AddGroup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (check()) {
-                    final String Title = edt_Title.getText().toString();
-                    final String keyID = FirebaseDatabase.getInstance().getReference().push().getKey();
-                    Group group = new Group(keyID,edt_Title.getText().toString(), Integer.parseInt(edt_Sodu.getText().toString()), edt_Direction.getText().toString(), 0, 0,value);
+                    Date d = new Date();
 
+                    SimpleDateFormat timeStampFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    Date myDate = new Date();
+                    String ngaydang = timeStampFormat.format(myDate);
+
+                    final String Title = edt_Title.getText().toString();
+                    String Ghichu = edt_Direction.getText().toString();
+                    int Sodu = Integer.parseInt(edt_Sodu.getText().toString());
+                    final String keyID = FirebaseDatabase.getInstance().getReference().push().getKey();
+                        Group group = new Group(keyID,Title,Sodu,Ghichu,ngaydang,0,0,value);
                     database.child(GROUP).push().setValue(group, new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {

@@ -7,14 +7,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.cao.quanlychitieu.AddGroup;
+import com.example.cao.quanlychitieu.Detail;
 import com.example.cao.quanlychitieu.Edit_detail;
 import com.example.cao.quanlychitieu.adapter.baidangAdapter;
 import com.example.cao.quanlychitieu.model.Group;
 import com.example.cao.quanlychitieu.R;
+import com.example.cao.quanlychitieu.model.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +44,7 @@ public class BaiDangActivity extends AppCompatActivity implements AdapterView.On
     ImageView img_Add;
     Intent intent;
     String Username;
+    List<String> stringList;
 
 
     @Override
@@ -56,7 +60,7 @@ public class BaiDangActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BaiDangActivity.this, AddGroup.class);
-                intent.putExtra(USERNAME,Username);
+                intent.putExtra(USERNAME, Username);
                 startActivity(intent);
             }
         });
@@ -80,7 +84,6 @@ public class BaiDangActivity extends AppCompatActivity implements AdapterView.On
             lv_data.setSelection(adapter.getCount() - 1);
         }
     }
-
     public void getdata() {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl(LINK + "Group");
@@ -112,12 +115,11 @@ public class BaiDangActivity extends AppCompatActivity implements AdapterView.On
 
             }
         });
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(BaiDangActivity.this, Edit_detail.class);
+        Intent intent = new Intent(BaiDangActivity.this, Detail.class);
         Group group = listbaidang.get(position);
         intent.putExtra(TITLE, group.getGroup_Title());
         intent.putExtra(USERNAME,Username);

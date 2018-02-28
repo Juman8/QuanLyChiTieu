@@ -7,12 +7,12 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@color/Backgroud"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,82 +37,76 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_marginLeft="5sp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:background="@color/MauTim" />
-
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
+                android:layout_height="wrap_content">
+                <EditText
                     android:id="@+id/tv_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Nguyễn Hoàng Thùy Linh"
-                    android:textColor="@color/MauTim"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_ngaysinh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:text="Nguyễn Hoàng Thùy Linh"
+                    android:textSize="20sp"
+                    android:textColor="@color/MauTim"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/tv_ngaysinh"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:inputType="date"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Date: 17.6.2014"
-                    android:textSize="15sp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:textSize="15sp"/>
+
+
             </LinearLayout>
 
         </LinearLayout>
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:orientation="vertical">
-
-            <TextView
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
                 android:id="@+id/tv_gioitinh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="Giới Tính: Bê Đê"
-                android:textSize="15sp" />
-
-            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Giới Tính: Bê Đê"/>
+            <EditText
                 android:id="@+id/tv_numberphone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="Số Điện Thoại: 080808080808"
-                android:textSize="15sp" />
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Số Điện Thoại: 080808080808"/>
             <TextView
                 android:id="@+id/tv_emal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="Địa Chỉ Email: songnuocxxx@gmail.com"
-                android:textSize="15sp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Địa Chỉ Email: songnuocxxx@gmail.com"/>
         </LinearLayout>
-
         <Button
             android:id="@+id/btn_editpf"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:background="@color/Mauchu"
             android:gravity="center"
-            android:text="Edit"
-            android:textColor="@color/Mautrang" />
+            android:layout_gravity="center"
+            android:background="@color/Mauchu"
+            android:text="Update"
+            android:textColor="@color/Mautrang"/>
     </LinearLayout>
 </LinearLayout>

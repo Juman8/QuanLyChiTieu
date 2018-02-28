@@ -62,8 +62,6 @@ public class resign extends AppCompatActivity {
         String conf = edt_Confrim.getText().toString().trim();
         if (pass.isEmpty()) {
             Toast.makeText(resign.this, "Không được trống!", Toast.LENGTH_SHORT).show();
-        } else if (conf.equals(pass)) {
-            Toast.makeText(resign.this, "Xác nhận mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
         } else {
             DangKy();
         }

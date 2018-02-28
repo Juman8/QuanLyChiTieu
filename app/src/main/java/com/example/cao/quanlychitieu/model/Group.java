@@ -10,29 +10,36 @@ public class Group {
     private int Group_SoDu;
     private String User_Gmail;
     private String Group_GhiChu;
+    private String Group_Ngaydang;
     private int Group_SoDanhMuc;
     private int Group_TongChiTieu;
     private int Group_Thuoctinh;
 
-    public Group(String ID, String group_Title, int group_SoDu, String user_Gmail, String group_GhiChu, int group_SoDanhMuc, int group_TongChiTieu, int group_Thuoctinh) {
+    public Group(String ID, String group_Title, int group_SoDu, String group_GhiChu, String group_Ngaydang, int group_SoDanhMuc, int group_TongChiTieu, int group_Thuoctinh) {
         this.ID = ID;
         Group_Title = group_Title;
         Group_SoDu = group_SoDu;
-        User_Gmail = user_Gmail;
         Group_GhiChu = group_GhiChu;
+        Group_Ngaydang = group_Ngaydang;
         Group_SoDanhMuc = group_SoDanhMuc;
         Group_TongChiTieu = group_TongChiTieu;
         Group_Thuoctinh = group_Thuoctinh;
     }
 
-    public Group(String ID, String group_Title, int group_SoDu, String group_GhiChu, int group_SoDanhMuc, int group_TongChiTieu, int group_Thuoctinh) {
-        this.ID = ID;
-        Group_Title = group_Title;
-        Group_SoDu = group_SoDu;
-        Group_GhiChu = group_GhiChu;
-        Group_SoDanhMuc = group_SoDanhMuc;
-        Group_TongChiTieu = group_TongChiTieu;
-        Group_Thuoctinh = group_Thuoctinh;
+    public String getUser_Gmail() {
+        return User_Gmail;
+    }
+
+    public void setUser_Gmail(String user_Gmail) {
+        User_Gmail = user_Gmail;
+    }
+
+    public String getGroup_Ngaydang() {
+        return Group_Ngaydang;
+    }
+
+    public void setGroup_Ngaydang(String group_Ngaydang) {
+        Group_Ngaydang = group_Ngaydang;
     }
 
     public String getID() {

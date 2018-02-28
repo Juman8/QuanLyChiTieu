@@ -1,28 +1,21 @@
 package com.example.cao.quanlychitieu;
 
-import com.example.cao.quanlychitieu.model.Group;
-import com.example.cao.quanlychitieu.model.User;
-import com.facebook.FacebookSdk;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cao.quanlychitieu.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.example.cao.quanlychitieu.R;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,25 +36,20 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_ID;
 
     public final static String LINKS = "https://quanlychitieu-9316c.firebaseio.com/User";
-
     public final static String GMAIL = "Gmail";
+
     private FirebaseAuth mAuth;
-    boolean result = false;
+    boolean result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+        result = false;
         checkLogin();
 
-
-        if (result) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            Toast.makeText(LoginActivity.this, "Dang Nhap Thanh Cong", Toast.LENGTH_LONG).show();
-            startActivity(intent);
-            finish();
-        } else {
+        if (result == false) {
+            setContentView(R.layout.activity_login);
             initwighet();
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,18 +57,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     String email = edt_ID.getText().toString().trim();
                     String password = edt_Pass.getText().toString().trim();
-                    DangNhap(email, password);
-                    if (result) {
-                        getkey(email);
-                    }
-                }
-            });
-            tvResign.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(LoginActivity.this, resign.class);
-                    startActivity(intent);
+                    DangNhap2(email, password);
                     finish();
+
                 }
             });
         }
@@ -88,9 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkLogin() {
-        //Khởi tạo SharedPreferences có tên "MyShare"
         SharedPreferences share = getSharedPreferences("Profile", MODE_PRIVATE);
-        //Lấy chuỗi String trong file SharedPreferences thông qua tên URName và URPass
         String name = share.getString("Gmail", "");
         String pass = share.getString("Passwords", "");
         DangNhap(name, pass);
@@ -104,7 +81,32 @@ public class LoginActivity extends AppCompatActivity {
         edt_ID = (EditText) findViewById(R.id.edt_username);
     }
 
-    private void DangNhap(String email, String password) {
+    private void DangNhap(final String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Toast.makeText(LoginActivity.this, "Welcome back " + email, Toast.LENGTH_LONG).show();
+                            startActivity(intent);
+                            finish();
+                            // Sign in success, update UI with the signed-in user's information
+                            //Log.d(TAG, "signInWithEmail:success");\
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            //Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            result = false;
+                            Toast.makeText(LoginActivity.this, "Co Loi xay ra, moi ban dang nhap lai.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
+    }
+
+    private void DangNhap2(final String email, String password) {
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Cac truong khong duoc trong", Toast.LENGTH_SHORT).show();
         } else {
@@ -114,12 +116,15 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
+                                Toast.makeText(LoginActivity.this, "Nhap Thanh Cong", Toast.LENGTH_LONG).show();
+                                getkey(email);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
                                 //Log.d(TAG, "signInWithEmail:success");\
-                                result = true;
                             } else {
                                 // If sign in fails, display a message to the user.
                                 //Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                result = false;
                                 Toast.makeText(LoginActivity.this, "Co Loi xay ra, moi ban thu lai.",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -128,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                     });
         }
     }
+
     public void getkey(String Username) {
 
         DatabaseReference ref = FirebaseDatabase.getInstance()
@@ -146,7 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("Username", user.getUser_Name());
                 editor.putString("UsernameID", user.getID());
                 editor.commit();
-
             }
 
             @Override
