@@ -1,5 +1,6 @@
 package com.example.cao.quanlychitieu;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,12 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.cao.quanlychitieu.User.Profile;
+import com.example.cao.quanlychitieu.viewcustom.BaiDangActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView tv_Diachi;
     TextView tv_Tenkhachhang;
+    ImageView imageView;
     public final static String LINK = "https://quanlychitieu-9316c.firebaseio.com/";
     public final static String USERNAME = "USERNAME";
     @Override
@@ -47,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        //imageView = headerLayout.findViewById(R.id.img_anhkhachhang);
         tv_Diachi = (TextView)headerLayout.findViewById(R.id.tv_diachi);
         tv_Tenkhachhang = (TextView)headerLayout.findViewById(R.id.tv_tenkhachhang);
         init();
@@ -91,30 +100,41 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(this, Profile.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(MainActivity.this, BaiDangActivity.class);
+            Toast.makeText(MainActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-        }
+            SharedPreferences share = getSharedPreferences("Profile", MODE_PRIVATE);
+            SharedPreferences.Editor editor = share.edit();
+            //Đẩy 2 chuỗi lấy từ 2 editext ở file SharedPreferences
+            editor.putString("Gmail", "");
+            editor.putString("Passwords", "");
+            editor.putString("Username", "");
+            editor.putString("UsernameID", "");
+            editor.commit();
+            Toast.makeText(MainActivity.this,"Log out.!",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        } /*else if (id == R.id.nav_logout) {
+
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
     public void init() {
-
-
         SharedPreferences share = getSharedPreferences("Profile", MODE_PRIVATE);
         String gmail = share.getString("Gmail", "");
         String ten = share.getString("Username", "");
-
+        //imageView.setImageIcon(R.mipmap.ic_launcher);
         tv_Diachi.setText(gmail);
         tv_Tenkhachhang.setText(ten);
     }

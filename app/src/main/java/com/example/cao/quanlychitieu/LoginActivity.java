@@ -1,7 +1,10 @@
 package com.example.cao.quanlychitieu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cao.quanlychitieu.View.ViewDialog;
 import com.example.cao.quanlychitieu.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,30 +50,48 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         result = false;
-        checkLogin();
+//        if (isConnected() == true) {
+            checkLogin();
+            if (!result) {
+                setContentView(R.layout.activity_login);
+                initwighet();
+                btnLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String email = edt_ID.getText().toString().trim();
+                        String password = edt_Pass.getText().toString().trim();
+                        DangNhap2(email, password);
+                    }
+                });
+                tvResign.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(LoginActivity.this,resign.class);
+                        startActivity(intent);
+                    }
+                });
+            }
 
-        if (result == false) {
-            setContentView(R.layout.activity_login);
-            initwighet();
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+//        } else {
+//            ViewDialog viewDialog = new ViewDialog();
+//            viewDialog.showDialog(LoginActivity.this, "Thiết bị của bạn không được kết nối Internet \n hãy kết nối wifi hoặc 3g và thử lại",2);
+//        }
+    }
 
-                    String email = edt_ID.getText().toString().trim();
-                    String password = edt_Pass.getText().toString().trim();
-                    DangNhap2(email, password);
-                    finish();
-
-                }
-            });
+    public boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
         }
-
+        return false;
     }
 
     private void checkLogin() {
         SharedPreferences share = getSharedPreferences("Profile", MODE_PRIVATE);
-        String name = share.getString("Gmail", "");
-        String pass = share.getString("Passwords", "");
+        String name = share.getString("Gmail", "caoott");
+        String pass = share.getString("Passwords", "caoott");
         DangNhap(name, pass);
     }
 

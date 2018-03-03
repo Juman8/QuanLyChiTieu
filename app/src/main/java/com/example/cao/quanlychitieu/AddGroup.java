@@ -89,7 +89,7 @@ public class AddGroup extends AppCompatActivity {
                     String Ghichu = edt_Direction.getText().toString();
                     int Sodu = Integer.parseInt(edt_Sodu.getText().toString());
                     final String keyID = FirebaseDatabase.getInstance().getReference().push().getKey();
-                        Group group = new Group(keyID,Title,Sodu,Ghichu,ngaydang,0,0,value);
+                        Group group = new Group(keyID,username,Title,Sodu,Ghichu,ngaydang,0,0,value);
                     database.child(GROUP).push().setValue(group, new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {

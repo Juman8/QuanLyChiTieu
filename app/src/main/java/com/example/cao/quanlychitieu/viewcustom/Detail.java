@@ -1,40 +1,46 @@
-package com.example.cao.quanlychitieu;
+package com.example.cao.quanlychitieu.viewcustom;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.support.annotation.Nullable;
+        import android.support.v7.app.AppCompatActivity;
+        import android.view.View;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
+        import android.widget.ListView;
+        import android.widget.TextView;
 
-import com.example.cao.quanlychitieu.model.Group;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+        import com.example.cao.quanlychitieu.R;
+        import com.example.cao.quanlychitieu.adapter.ChitietAdapter;
+        import com.example.cao.quanlychitieu.adapter.baidangAdapter;
+        import com.example.cao.quanlychitieu.model.ChiTiet;
+        import com.example.cao.quanlychitieu.model.Group;
+        import com.google.firebase.database.ChildEventListener;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
-import static com.example.cao.quanlychitieu.LoginActivity.LINKS;
-import static com.example.cao.quanlychitieu.MainActivity.LINK;
-import static com.example.cao.quanlychitieu.MainActivity.USERNAME;
+        import static com.example.cao.quanlychitieu.MainActivity.LINK;
+        import static com.example.cao.quanlychitieu.MainActivity.USERNAME;
 
 /**
  * Created by HP on 2/6/2018.
  */
 
-public class Detail extends AppCompatActivity{
+public class Detail extends AppCompatActivity implements AdapterView.OnItemClickListener{
     TextView tv_Title;
+
     ListView listView;
     ListView listViewNguoidung;
-    List<Detail> details;
+
+    ChitietAdapter adapter;
+    ArrayList<ChiTiet> listData;
+
     List<String> stringList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,10 +56,25 @@ public class Detail extends AppCompatActivity{
         Intent intent = getIntent();
         String name = intent.getStringExtra(USERNAME);
         String key = getkey(name);
+
+        initlistdetail(key);
         initlistnguoidung(key);
+        //setAdapter();
+        listView = (ListView) findViewById(R.id.lv_danhsachchitieu);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringList);
         listViewNguoidung.setAdapter(itemsAdapter);
+
+    }
+    public void setAdapter() {
+        if (adapter == null) {
+            adapter = new ChitietAdapter(listData, Detail.this);
+        } else {
+            adapter.notifyDataSetChanged();
+            listView.setSelection(adapter.getCount() - 1);
+        }
     }
     private String getkey(String name){
         final String[] sc = new String[1];
@@ -96,7 +117,10 @@ public class Detail extends AppCompatActivity{
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                stringList.add(dataSnapshot.getValue(String.class));
+                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
+                    String s1 = dataSnapshot1.getValue(String.class);
+                    stringList.add(s1);
+                }
             }
 
             @Override
@@ -126,7 +150,10 @@ public class Detail extends AppCompatActivity{
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                details.add(dataSnapshot.getValue(Detail.class));
+                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
+                    ChiTiet s1 = dataSnapshot1.getValue(ChiTiet.class);
+                    listData.add(s1);
+                }
             }
 
             @Override
@@ -152,4 +179,9 @@ public class Detail extends AppCompatActivity{
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
 }
+
