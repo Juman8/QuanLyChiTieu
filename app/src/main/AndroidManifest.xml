@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".resign"/>
         <activity android:name=".viewcustom.Detail"/>
+        <activity android:name=".BaiDangActivity"/>
+        <activity android:name=".AddGroup"/>
         <activity android:name=".Edit_detail"/>
         <activity android:name=".User.Profile"/>
         <activity android:name=".User.Edit_Profile_User"/>

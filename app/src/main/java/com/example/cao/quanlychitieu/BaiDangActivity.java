@@ -1,19 +1,23 @@
-package com.example.cao.quanlychitieu.viewcustom;
+package com.example.cao.quanlychitieu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.example.cao.quanlychitieu.AddGroup;
 import com.example.cao.quanlychitieu.adapter.baidangAdapter;
 import com.example.cao.quanlychitieu.model.Group;
-import com.example.cao.quanlychitieu.R;
+import com.example.cao.quanlychitieu.model.Group_Gmail;
+import com.example.cao.quanlychitieu.viewcustom.Detail;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +37,8 @@ import static com.example.cao.quanlychitieu.MainActivity.USERNAME;
 public class BaiDangActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     public final static String TITLE = "title";
     baidangAdapter adapter;
+    ArrayList<String> listGroupID_Data;
+
     ArrayList<Group> listData;
     ListView lvData;
     ImageView img_Add;
@@ -46,24 +52,18 @@ public class BaiDangActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_quanlybaidang_layout);
         SharedPreferences share = getSharedPreferences("Profile", MODE_PRIVATE);
         String name = share.getString("Gmail", "");
+        String ID = share.getString("UsernameID","");
         wighet();
-        getData(name);
+        laydanhsachIDGroup(ID);
+
+        layradanhsachGroup(listGroupID_Data);
+        Toast.makeText(BaiDangActivity.this,listData.size()+"",Toast.LENGTH_SHORT).show();
         adapter();
-        //setAdapter();
-        intent = this.getIntent();
-        Username = intent.getStringExtra(USERNAME);
-        img_Add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BaiDangActivity.this, AddGroup.class);
-                intent.putExtra(USERNAME, Username);
-                startActivity(intent);
-            }
-        });
+        setAdapter();
     }
 
     public void wighet() {
-        img_Add = (ImageView) findViewById(R.id.img_addgroup);
+        //img_Add = (ImageView) findViewById(R.id.img_addgroup);
         listData = new ArrayList<>();
     }
     public void adapter(){
@@ -81,18 +81,58 @@ public class BaiDangActivity extends AppCompatActivity implements AdapterView.On
             lvData.setSelection(adapter.getCount() - 1);
         }
     }
-    public void getData(String username) {
+
+    public void layradanhsachGroup(ArrayList username) {
         listData = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReferenceFromUrl(LINK + "Group");
-        Query query = ref.orderByChild("User_Gmail").equalTo(username);
-        DatabaseReference statusRef = query.getRef();
+        for (int i = 0; i < username.size(); i++) {
+            String ID = (String) username.get(i);
+            Query query = ref.orderByChild("ID").equalTo(ID);
+            DatabaseReference statusRef = query.getRef();
+            ref.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Group group = snapshot.getValue(Group.class);
+                        listData.add(group);
+                    }
+                    Log.d("Size Listdata", listData.size()+"");
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+    private void laydanhsachIDGroup(String ID){
+        listGroupID_Data = new ArrayList<>();
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReferenceFromUrl(LINK + "Group_Gmail/"+ID);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Group group = snapshot.getValue(Group.class);
-                    listData.add(group);
+                for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+                    Group_Gmail groupGmail = dataSnapshot1.getValue(Group_Gmail.class);
+                    listGroupID_Data.add(groupGmail.getGmail());
+                    Log.d("Size Listdata", listGroupID_Data.size()+"");
                 }
             }
 
@@ -116,6 +156,7 @@ public class BaiDangActivity extends AppCompatActivity implements AdapterView.On
 
             }
         });
+
     }
 
     @Override

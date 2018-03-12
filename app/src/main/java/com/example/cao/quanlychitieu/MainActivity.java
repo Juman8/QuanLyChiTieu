@@ -5,6 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,8 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cao.quanlychitieu.User.Profile;
-import com.example.cao.quanlychitieu.viewcustom.BaiDangActivity;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -92,21 +95,31 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    public void callFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
+        transaction.replace(R.id.frame_nhung, fragment);
+        transaction.commit();
+ }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_camera) {
             Intent intent = new Intent(this, Profile.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(MainActivity.this, BaiDangActivity.class);
-            Toast.makeText(MainActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
-            startActivity(intent);
-        } else if (id == R.id.nav_share) {
+            callFragment(new Fragment_quanlybaidang());
+//            Intent intent = new Intent(this, BaiDangActivity.class);
+//            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+//            startActivity(intent);
+        } else if (id == R.id.nav_slideshow) {
+                Intent intent = new Intent(MainActivity.this, AddGroup.class);
+                startActivity(intent);
+        }  else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 

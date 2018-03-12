@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.cao.quanlychitieu.model.Group;
+import com.example.cao.quanlychitieu.model.Group_Gmail;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,7 @@ import com.google.firebase.database.Query;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.cao.quanlychitieu.LoginActivity.LINKS;
 import static com.example.cao.quanlychitieu.MainActivity.LINK;
 import static com.example.cao.quanlychitieu.MainActivity.USERNAME;
 
@@ -32,7 +34,7 @@ import static com.example.cao.quanlychitieu.MainActivity.USERNAME;
  */
 
 public class AddGroup extends AppCompatActivity {
-    private final static String GROUP = "group";
+    private final static String GROUP = "Group";
     DatabaseReference database;
     private Button btn_Add;
     private EditText edt_Title;
@@ -44,7 +46,7 @@ public class AddGroup extends AppCompatActivity {
     public final static String STATUS = "status";
     public final static String LINKs = "https://quanlychitieu-9316c.firebaseio.com/Group/";
     Intent intent;
-    String Username;
+    String UsernameID;
     String username;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class AddGroup extends AppCompatActivity {
         //Khởi tạo SharedPreferences có tên "MyShare"
         SharedPreferences share = getSharedPreferences("Profile", MODE_PRIVATE);
         username = share.getString("Gmail", "");
+        UsernameID = share.getString("UsernameID","");
     }
 
 
@@ -79,11 +82,8 @@ public class AddGroup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (check()) {
-                    Date d = new Date();
-
-                    SimpleDateFormat timeStampFormat = new SimpleDateFormat("dd/MM/yyyy");
                     Date myDate = new Date();
-                    String ngaydang = timeStampFormat.format(myDate);
+                    String ngaydang = myDate.toString();
 
                     final String Title = edt_Title.getText().toString();
                     String Ghichu = edt_Direction.getText().toString();
@@ -93,7 +93,11 @@ public class AddGroup extends AppCompatActivity {
                     database.child(GROUP).push().setValue(group, new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            database.child(GROUP).child(keyID).child("1").child("Gmail").push().setValue(username);
+                            Group_Gmail group_gmail = new Group_Gmail(keyID,1);
+                            DatabaseReference ref = FirebaseDatabase.getInstance()
+                                    .getReferenceFromUrl(LINK+"/Group_Gmail/"+UsernameID);
+                            Group_Gmail group_gmail1 = new Group_Gmail(UsernameID,1);
+                            ref.push().setValue(group_gmail1);
                             Toast.makeText(context, "Sucessfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(context, Edit_detail.class);
                             intent.putExtra(STATUS, Title);
@@ -130,7 +134,7 @@ public class AddGroup extends AppCompatActivity {
 
     public boolean checkname(String edt_Title) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReferenceFromUrl(LINKs+Username);
+                .getReferenceFromUrl(LINKs+UsernameID);
 
         Query query = ref.orderByChild("Group_Title").equalTo(edt_Title);
         if (query.equals(edt_Title)) {

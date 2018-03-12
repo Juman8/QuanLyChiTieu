@@ -66,11 +66,11 @@ public class Edit_Profile_User extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User user = dataSnapshot.getValue(User.class);
-                tvUsername.setText(user.getUser_Name());
-                tvNgaySinh.setText(user.getUser_date());
-                tvGioitinh.setText(user.getUser_gioitinh());
-                tvSodienthoai.setText(user.getUser_NumberPhone());
-                tvDiachiEmail.setText(user.getUser_Gmail());
+                tvUsername.setHint(user.getUser_Name()+"");
+                tvNgaySinh.setHint(user.getUser_date());
+                tvGioitinh.setHint(user.getUser_gioitinh());
+                tvSodienthoai.setHint(user.getUser_NumberPhone());
+                tvDiachiEmail.setHint(user.getUser_Gmail());
             }
 
             @Override

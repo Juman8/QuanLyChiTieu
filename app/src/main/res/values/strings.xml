@@ -14,4 +14,7 @@
     <string name="only_me_t_t">Only Me \t \t</string>
     <string name="username">Tran Thanh Cao</string>
     <string name="diachiuser">songnuoclantan@gmail.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

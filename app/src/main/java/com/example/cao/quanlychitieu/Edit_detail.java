@@ -2,7 +2,6 @@ package com.example.cao.quanlychitieu;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,13 +18,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import static com.example.cao.quanlychitieu.MainActivity.LINK;
 import static com.example.cao.quanlychitieu.MainActivity.USERNAME;
-import static com.example.cao.quanlychitieu.viewcustom.BaiDangActivity.TITLE;
+import static com.example.cao.quanlychitieu.BaiDangActivity.TITLE;
 
 /**
  * Created by HP on 2/6/2018.
